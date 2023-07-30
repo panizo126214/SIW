@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-image: url('images/backg.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    border-radius: 10px 0 0 10px;
+}
+
+table{
+
+    color: whitesmoke;
+    border: 2px;
+    border-color: dimgray;
+    border-style: solid;
+}
+
+
+ul {
+
+    color: whitesmoke;
+    
+}
+
+nav {
+    margin-top: 25px;
+    margin-right: 20px;
+    text-align: right;
+}
+
+#info {
+
+    margin-top: 300px;
+    margin-left: 20px;
+    color: whitesmoke;
+}
+
+footer {
+
+    margin-top:500px;
+}
+
+li {
+
+    display: inline;
+    margin-top: 250px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.elemNav{
+
+    padding: 4px;
+    border: 2px solid whitesmoke;
+}
+
+#listaFooter{
+
+
+}

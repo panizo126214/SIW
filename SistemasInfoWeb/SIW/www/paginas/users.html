@@ -1,0 +1,172 @@
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <link rel="stylesheet" href="./styles/users.css"> -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <title>Usuarios | Movmad</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.js" integrity="sha512-6DC1eE3AWg1bgitkoaRM1lhY98PxbMIbhgYCGV107aZlyzzvaWCW1nJW2vDuYQm06hXrW0As6OGKcIaAVWnHJw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+
+            var id;
+            var email;
+            var nameUser;
+            var typeUser;
+            var password;
+
+            function modUser(){
+                email = document.getElementById("emailMod").value;
+                nameUser = document.getElementById("nameMod").value;
+                typeUser = document.getElementById("typeMod").value;
+                password = document.getElementById("passMod").value;
+
+                console.log(email);
+                console.log(password);
+
+                $.ajax({
+                    type: "POST",
+                    url: "./metodos/users.php?action=modUser",
+                    data:{
+                        id: id,
+                        emailUser: email,
+                        nameUser: nameUser,
+                        typeUser: typeUser,
+                        passUser: password
+                    },
+                    success: function(response){
+                        alert("Cambios realizados.");
+                        console.log(response);
+                        window.location.href = 'index.php?action=usuario&key=1';
+                    }
+                })
+            }
+
+            function getRowContent($idUser){
+                $.ajax({
+                    type: "GET",
+                    url: "./metodos/users.php?action=getRowContent?idUser="+$idUser,
+                    success: function(response){
+                        id = document.getElementById("idUser"+$idUser).innerHTML;
+                    }
+                })
+            }
+        </script>
+    </head>
+
+    <body>
+
+        <div id="cabecera" class="cabecera">
+            <nav class="navbar navbar-expand-sm   navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+        
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link" href="index.php?action=inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?action=admin">Admin Workspace</a>
+                      </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?action=parking&key=1">Parkings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?action=bus&key=1">Buses</a>
+                    </li>
+                  </ul>
+                  <div class="social-part">
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </nav>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <section class="user-list-section">
+                        <h1 id="tituloUsers">Lista usuarios</h1>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <div id="divListadoUsers">
+                                    <table class="table" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tipo de usuario</th>
+                                                <th>Nombre</th>
+                                                <th>Email</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            ##ELEMS_USERS##
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="modUser">
+                            
+                            <input class="form-control form-control-lg" type="email" id="emailMod" name="emailMod" placeholder="Email"> <br>
+                            <input class="form-control form-control-lg" type="text" id="nameMod" name="nameMod" placeholder="Nuevo nombre"> <br>
+                            <input class="form-control form-control-lg" type="password" id="passMod" name="passMod" placeholder="Nueva password"> <br>
+                            <input class="form-check-input" type="radio" id="typeMod" value="admin" name="typeMod">
+                            <label class="form-check-label" for="admin">Admin</label> <br>
+                            <input class="form-check-input" type="radio" id="typeMod" value="normal" name="typeMod">
+                            <label class="form-check-label" for="normal">Normal</label> <br>
+
+                        </div>
+
+                        <button id="btnModificar" type="button" class="btn btn-labeled btn-primary mt-2" onclick="modUser()">Modificar usuario</button>
+                    
+                    </section>
+                </div>
+
+
+
+                
+                <div class="col">
+                    <div id="divAddUsers">
+                        <form method="post" action="index.php?action=usuario&key=3">
+                            <h2>Añadir usuarios</h2>
+                            <input class="form-control form-control-lg" type="email" id="email" name="inputEmailUser" placeholder="Email"> <br>
+                            <input class="form-control form-control-lg" type="text" id="name" name="inputNameUser" placeholder="Nombre de usuario"> <br>
+                            <input class="form-control form-control-lg" type="password" id="pass" name="inputPassUser" placeholder="Password"> <br>
+                            <input class="form-check-input" type="radio" id="type" value="admin" name="inputTypeUser"> 
+                            <label class="form-check-label" for="admin">Admin</label> <br>
+                            <input class="form-check-input" type="radio" id="type" value="normal" name="inputTypeUser">
+                            <label class="form-check-label" for="normal">Normal</label> <br>
+                            <input class="btn btn-labeled btn-primary mt-2" type="submit" id="inputSubmitUser"><br>
+                        </form>
+                    </div>
+                    <div id="divDeleteUsers">
+
+                        <form method="post" action="index.php?action=usuario&key=2">
+                            <h2>Eliminar usuario por id</h2>
+                            <label for="inputIdUser">ID de usuario:</label>
+                            <input class="form-control form-control-lg" type="number" id="inputIdUser" name="inputIdUser" min="0">
+                            <input class="btn btn-labeled btn-danger mt-2" type="submit" id="inputSubmitDelete">
+                        </form>
+    
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        ##SCRIPT##
+
+    </body>
+
+</html>

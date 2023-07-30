@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Líneas Autobús | ParkMad</title>
+    <link rel="stylesheet" href="./styles/buses.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.js" integrity="sha512-6DC1eE3AWg1bgitkoaRM1lhY98PxbMIbhgYCGV107aZlyzzvaWCW1nJW2vDuYQm06hXrW0As6OGKcIaAVWnHJw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        function obtener_calendario(){
+            $.ajax({
+                type: "GET",
+                url: "./metodos/buses.php?action=calendario",
+                success: function(response){
+                    $('#loadingSpinner').hide();
+                    // console.log(response);
+                    document.getElementById('daysList').innerHTML = response;
+                }
+            })
+        }
+
+        function obtener_lineas(){
+            $('#loadingSpinner').show();
+            $.ajax({
+                type: "GET",
+                url: "./metodos/buses.php?action=lineas",
+                success: function(response){
+                    $('#loadingSpinner').hide();
+                    document.getElementById('lineas').innerHTML = response;
+                }
+            })
+        }
+
+        function obtener_paradas($idLinea){
+            location.href = "#loadingSpinner";                 
+            history.replaceState(null,null,"loadingSpinner"); 
+            var url = "./metodos/buses.php?action=paradas&lineId="+ $idLinea;
+            $('#loadingSpinner').show();            
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function(response){
+                    $('#loadingSpinner').hide();
+                    document.getElementById('paradas').innerHTML = response;
+                }
+            })
+        }
+    </script>
+
+</head>
+
+<body onload="obtener_calendario()">
+
+    
+    <div id="cabecera" class="cabecera">
+            
+        <nav class="navbar navbar-expand-sm   navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="./index.php?action=inicio">Inicio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./index.php?action=parking&key=1">Parkings</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="./index.php?action=plaza&key=1">Plazas</a>
+                </li> -->
+
+              </ul>
+
+            </div>
+          </nav>
+    </div>
+
+    <div class="container">
+        <div id="calendario">
+            <ul class="month">
+                <li>Mayo<br><span style="font-size:18px">2023</span></li>
+            </ul>
+            <ul class="days" id="daysList">
+            
+            </ul>
+        </div>
+
+        <div class="container" id="infoLineas">
+            <p>Madrid cuenta con una amplia red de transporte público que incluye autobuses urbanos. En la actualidad, hay más de 200 líneas de autobuses que conectan diferentes zonas de la ciudad, incluyendo barrios, zonas residenciales, centros comerciales, lugares turísticos y estaciones de transporte. Estas líneas son operadas por diferentes empresas de transporte público, aunque la mayoría de ellas están bajo la gestión del Consorcio Regional de Transportes de Madrid.</p>
+            <p>En esta página podrás encontrar información sobre las líneas y paradas.</p>
+            <button class="btn btn-primary" onclick="obtener_lineas()">Ver líneas de bus</button>    
+        </div>
+
+    </div>
+
+    <div id="lineas">
+
+    </div>
+
+    <div id="paradas">
+
+    </div>
+    
+    <div class="container" id="loadingSpinner">
+        <div class="row">
+            <div class="d-flex justify-content-center">
+                <div>
+                    <img src="https://media4.giphy.com/media/wvtt4mtViPOSrLYNFh/giphy.gif?cid=ecf05e47o3qm6risr4qricb06xzmharw5prki9qufjobp5gb&ep=v1_gifs_related&rid=giphy.gif&ct=g" alt="Loading...">
+                </div>
+            </div>
+        </div>    
+    </div>
+
+
+</body>
+</html>
